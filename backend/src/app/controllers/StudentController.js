@@ -1,7 +1,26 @@
 import * as yup from 'yup';
+import { Op } from 'sequelize';
 import Student from '../models/Student';
 
 class StudentController {
+  async index(req, res) {
+    const { name } = req.query;
+
+    if (!name) {
+      const students = await Student.findAll();
+
+      return res.status(200).json(students);
+    }
+
+    const students = await Student.findAll({
+      where: {
+        name: { [Op.like]: `%${name}%` },
+      },
+    });
+
+    return res.status(200).json(students);
+  }
+
   async update(req, res) {
     const schema = yup.object().shape({
       name: yup.string().required('Nome é obrigatório'),

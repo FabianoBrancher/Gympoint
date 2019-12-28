@@ -1,7 +1,7 @@
+import { Op } from 'sequelize';
+import { subDays, endOfDay, startOfDay } from 'date-fns';
 import Checkin from '../models/Checkin';
 import Registration from '../models/Registration';
-import { Op } from 'sequelize';
-import { subDays, parseISO, endOfDay, startOfDay } from 'date-fns';
 
 class CheckinController {
   async index(req, res) {
@@ -22,7 +22,7 @@ class CheckinController {
       order: [['created_at', 'DESC']],
     });
 
-    res.status(200).json(checkinsCount);
+    return res.status(200).json(checkinsCount);
   }
 
   async store(req, res) {
@@ -58,7 +58,7 @@ class CheckinController {
 
     const checkin = await Checkin.create({ student_id: id });
 
-    res.status(200).json(checkin);
+    return res.status(200).json(checkin);
   }
 }
 
